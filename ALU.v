@@ -22,7 +22,15 @@ module ALU(InputA,InputB,OP,Out,Zero, LT);
 		Out = 0;
 		case (OP)
 		'b0: Out = InputA + InputB; // ADD
-		'b1: Out = InputA - InputB; // SUB
+		'b1: begin 
+			
+			if (InputA >= InputB)  
+				Out = InputA - InputB; // SUB if inputA is larger or equal to InputB
+			else 
+				// Sub with a borrow, because there are always going to be a borrow
+				Out = 9'b100000000 - InputB + InputA;
+			
+		end
 		default: Out = 0;
 	  endcase
 	
