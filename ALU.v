@@ -12,7 +12,7 @@ module ALU(InputA,InputB,OP,Out,Zero, LT);
 
 	input [ 7:0] InputA;
 	input [ 7:0] InputB;
-	input OP;
+	input [1:0]  OP;
 	output reg [7:0] Out; // logic in SystemVerilog
 	output reg Zero;
 	output reg LT;
@@ -21,11 +21,14 @@ module ALU(InputA,InputB,OP,Out,Zero, LT);
 	begin 
 		Out = 0;
 		case (OP)
-		'b0: begin
+		'b00: begin
 			Out = InputA + InputB; // ADD
 			$display("Sum: %d",Out);
 			end
-		'b1: Out = InputA - InputB; // SUB
+		'b01: begin
+			Out = InputA - InputB;
+			$display("Difference: %d",Out);
+			end	// SUB
 		default: Out = 0;
 	  endcase
 	

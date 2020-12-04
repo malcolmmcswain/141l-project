@@ -22,7 +22,7 @@ module CPU(Reset, Start, Clk,Ack);
 	
 	
 	wire [ 10:0] PgmCtr;        // program counter
-	wire [ 7:0] PCTarg;        // PC Target (for relative shifts of PC)
+	wire signed [ 7:0] PCTarg;        // PC Target (for relative shifts of PC)
 	wire [ 8:0] Instruction;   // our 9-bit instruction
 	wire [ 7:0] ReadA, ReadB;  // reg_file outputs
 	wire [ 7:0] InA, InB, 	   // ALU operand inputs
@@ -32,9 +32,9 @@ module CPU(Reset, Start, Clk,Ack);
 	wire        MemWrite,	   // data_memory write enable
 					LT,				// ALU Less Than flag
 				   Zero,		      // ALU output = 0 flag
-					ALUOp,	      // to program counter: jump 
 					BranchEn;	   // to program counter: branch enable
-	wire [1:0]  WriteSrc;      // select line for 4:1 RegWrite mux
+	wire [1:0]  ALUOp,	      // to program counter: jump 
+					WriteSrc;      // select line for 4:1 RegWrite mux
 	reg  [15:0] CycleCt;	      // standalone; NOT PC!
 
 	// Fetch = Program Counter + Instruction ROM
@@ -74,7 +74,7 @@ module CPU(Reset, Start, Clk,Ack);
 	Mux M1 (
 		.in0 (ALU_out),       // ALU output
 		.in1 (MemReadValue),  // value from memread - for swd
-		.in2 (LT[7:0]),            // LT value - for slt
+		.in2 (LT),            // LT value - for slt
 		.in3 (8'b00000000),   // garbage case
 		.sel (WriteSrc),      // 2-bit select wire
 		.out (RegWriteValue)  // register write DataIn
@@ -103,7 +103,7 @@ module CPU(Reset, Start, Clk,Ack);
 	ALU ALU1(
 	  .InputA(InA),      	  
 	  .InputB(InB),
-	  .OP(Instruction[8:6]), //opcode
+	  .OP(ALUOp), //opcode
 	  .Out(ALU_out),		  			
 	  .Zero(Zero), // zero flag for beq
 	  .LT(LT) // less than flag for slt

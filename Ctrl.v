@@ -15,8 +15,8 @@ module Ctrl (Op, WriteSrc, ALUOp, MemWrite, BranchEn);
 
   input[ 2:0] Op;	   // opcode
   output reg [1:0] WriteSrc; // regwrite mux selector
-  output reg ALUOp, // 1-bit operation selector (1 or 0)
-				 MemWrite, // control input to DataMem
+  output reg [1:0] ALUOp;
+  output reg MemWrite, // control input to DataMem
              BranchEn; // branch toggler
 				 
 	always@*
@@ -24,49 +24,49 @@ module Ctrl (Op, WriteSrc, ALUOp, MemWrite, BranchEn);
 		case(Op)
 		3'b000: begin // add
 				  WriteSrc = 2'b00; //r1 case
-				  ALUOp = 1'b0; // add
+				  ALUOp = 2'b00; // add
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b0;
 				  end
 		3'b001: begin // sub
 				  WriteSrc = 2'b00; //r1 case
-				  ALUOp = 1'b1; // sub
+				  ALUOp = 2'b01; // sub
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b0;
 				  end
 		3'b010: begin // lwd
 				  WriteSrc = 2'b01; //lwd case
-				  ALUOp = 1'b0;
+				  ALUOp = 2'b10;
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b0;
 				  end
 		3'b011: begin // swd
 				  WriteSrc = 2'b11; //no case
-				  ALUOp = 1'b0;
+				  ALUOp = 2'b10;
 				  MemWrite = 1'b1; // memory write back
 				  BranchEn = 1'b0;
 				  end
 		3'b100: begin // slt
 				  WriteSrc = 2'b10; //slt case
-				  ALUOp = 1'b0;
+				  ALUOp = 2'b10;
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b0;
 				  end
 		3'b101: begin // beq
 				  WriteSrc = 2'b11; //no case
-				  ALUOp = 1'b1; // sub
+				  ALUOp = 2'b01; // sub
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b1; // branch toggled
 				  end
 		3'b110: begin // swp
 				  WriteSrc = 2'b11; //no case
-				  ALUOp = 1'b0;
+				  ALUOp = 2'b10;
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b0;
 				  end
 		3'b111: begin // lim
 				  WriteSrc = 2'b11; //no case
-				  ALUOp = 1'b0;
+				  ALUOp = 2'b10;
 				  MemWrite = 1'b0;
 				  BranchEn = 1'b0;
 				  end

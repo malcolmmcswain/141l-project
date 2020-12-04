@@ -16,12 +16,29 @@ module RegFile (Clk,DataIn,Instruction,DataOutA,DataOutB,DataOutC);
 	input                Clk;
 	input        [W-1:0] DataIn;
 	input        [8:0] Instruction;
-	output reg   [W-1:0] DataOutA;			  
+	output reg    [W-1:0] DataOutA;			  
 	output reg   [W-1:0] DataOutB;				
-	output reg   [W-1:0] DataOutC;
+	output reg signed  [W-1:0] DataOutC;
 	
 	// W bits wide [W-1:0] and 2**4 registers deep 	 
 	reg [W-1:0] Registers[16-1:0];
+	
+	assign Registers[0] = 0;
+	assign Registers[1] = 0;
+	assign Registers[2] = 0;
+	assign Registers[3] = 0;
+	assign Registers[4] = 0;
+	assign Registers[5] = 0;
+	assign Registers[6] = 0;
+	assign Registers[7] = 0;
+	assign Registers[8] = 0;
+	assign Registers[9] = 0;
+	assign Registers[10] = 0;
+	assign Registers[11] = 0;
+	assign Registers[12] = 0;
+	assign Registers[13] = 0;
+	assign Registers[14] = 0;
+	assign Registers[15] = 0;
 
 	always@*
 	begin
@@ -46,14 +63,19 @@ module RegFile (Clk,DataIn,Instruction,DataOutA,DataOutB,DataOutC);
 	always @ (posedge Clk)
 	begin
 		case(Instruction[8:6]) // write registers
-		3'b010   : Registers[Instruction[3:0]] <= DataIn;
-		3'b101   : Registers[Instruction[3:0]] <= Registers[Instruction[3:0]];
-		3'b011   : Registers[Instruction[3:0]] <= Registers[Instruction[3:0]];
-		3'b111   : Registers[4'b0000] <= Instruction[5:0];
-		3'b110  : begin
+		3'b010   : begin
+						Registers[Instruction[3:0]] <= DataIn; // lwd
+						$display("Register %b contains value %d", Instruction[3:0], DataIn);
+						end
+		3'b101   : Registers[Instruction[3:0]] <= Registers[Instruction[3:0]]; // beq
+		3'b011   : Registers[Instruction[3:0]] <= Registers[Instruction[3:0]]; // swd
+		3'b111   : Registers[4'b0000] <= Instruction[5:0]; // lim
+		3'b110  : begin // swp
 			 Registers[4'b1111] = Registers[Instruction[5:4]];
 			 Registers[Instruction[5:4]] = Registers[Instruction[3:0]];
 			 Registers[Instruction[3:0]] = Registers[4'b1111];
+			 $display("Reg: %b has value: %d",Instruction[5:4],Registers[Instruction[5:4]]);
+			 $display("Reg: %b has value: %d",Instruction[3:0],Registers[Instruction[3:0]]);
 			 end
 		default  : Registers[Instruction[5:4]] <= DataIn;
 		endcase

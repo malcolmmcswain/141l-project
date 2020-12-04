@@ -18,7 +18,9 @@ with open(sys.argv[1]) as istream:
     for line in istream: # read each line of assembly
 
         # opens output file in append mode
-        ostream = open("machinecode.txt", "a")
+        ostream = open("machine_code.txt", 'a')
+
+        if (line == '\n'): continue
 
         # write opcode
         ostream.write(opcode_dict[line[0:3]].get("opcode", "###"))

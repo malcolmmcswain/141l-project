@@ -16,8 +16,8 @@ module InstFetch(Reset,Start,Clk,BranchEn,ALU_flag,Target,ProgCtr);
                      Clk,			      // PC can change on pos. edges only
                      BranchEn,	   // jump conditionally to Target + PC
                      ALU_flag;		   // flag from ALU, e.g. Zero, Carry, Overflow, Negative (from ARM)
-  input       [7:0] Target;		      // jump ... "how high?"
-  output reg[10:0] ProgCtr ;            // the program counter register itself
+  input  signed     [7:0] Target;		      // jump ... "how high?"
+  output reg [10:0] ProgCtr ;            // the program counter register itself
   
   
   //// program counter can clear to 0, increment, or jump
@@ -28,7 +28,7 @@ module InstFetch(Reset,Start,Clk,BranchEn,ALU_flag,Target,ProgCtr);
 		else if(Start)						     // hold while start asserted; commence when released
 		  ProgCtr <= ProgCtr;
 		else if(BranchEn && ALU_flag)   // conditional relative jump
-		  ProgCtr <= Target + ProgCtr;
+		  ProgCtr <= ProgCtr + Target;
 		else
 		  ProgCtr <= ProgCtr+'b1; 	        // default increment (no need for ARM/MIPS +4. Pop quiz: why?)
 	end
