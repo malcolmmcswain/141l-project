@@ -51,31 +51,8 @@ initial begin
 	op= 'b1; // SUB
 	test_alu_func; // void function call
 	#1;
-	
-	INPUTA = 8'b00000001;
-	INPUTB = 8'b11111111;
-	op = 'b1;
-	expected = 8'b00000010;
-	#1
-	if (expected == OUT)
-	begin
-			$display("%t YAY!! inputs = %h %h, opcode = %b, Zero %b",$time, INPUTA,INPUTB,op, Zero);
-		end
-	    else begin $display("%t FAIL! inputs = %h %h, opcode = %b, zero %b",$time, INPUTA,INPUTB,op, Zero);end
 
-	
-	INPUTA = 8'b00000010;
-	INPUTB = 8'b11111100;
-	op = 'b1;
-	expected = 8'b00000110;
-	#1
-	if (expected == OUT)
-	begin
-			$display("%t YAY!! inputs = %h %h, opcode = %b, Zero %b",$time, INPUTA,INPUTB,op, Zero);
-		end
-	    else begin $display("%t FAIL! inputs = %h %h, opcode = %b, zero %b",$time, INPUTA,INPUTB,op, Zero);end
-
-	end
+end
 	
 	task test_alu_func;
 	begin

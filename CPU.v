@@ -21,8 +21,8 @@ module CPU(Reset, Start, Clk,Ack);
 
 	
 	
-	wire [ 9:0] PgmCtr,        // program counter
-			      PCTarg;        // PC Target (for relative shifts of PC)
+	wire [ 10:0] PgmCtr;        // program counter
+	wire [ 7:0] PCTarg;        // PC Target (for relative shifts of PC)
 	wire [ 8:0] Instruction;   // our 9-bit instruction
 	wire [ 7:0] ReadA, ReadB;  // reg_file outputs
 	wire [ 7:0] InA, InB, 	   // ALU operand inputs
@@ -74,7 +74,7 @@ module CPU(Reset, Start, Clk,Ack);
 	Mux M1 (
 		.in0 (ALU_out),       // ALU output
 		.in1 (MemReadValue),  // value from memread - for swd
-		.in2 (LT),            // LT value - for slt
+		.in2 (LT[7:0]),            // LT value - for slt
 		.in3 (8'b00000000),   // garbage case
 		.sel (WriteSrc),      // 2-bit select wire
 		.out (RegWriteValue)  // register write DataIn
@@ -90,7 +90,7 @@ module CPU(Reset, Start, Clk,Ack);
 		.DataIn      (RegWriteValue) , // Output from regwrite mux
 		.DataOutA  (ReadA        ) ,
 		.DataOutB  (ReadB		 ) ,
-		.DataOutC  (PCTarg     ) , // Only time this wire is used is for beq addressing
+		.DataOutC  (PCTarg     ) // Only time this wire is used is for beq addressing
 	);
 	
 	
