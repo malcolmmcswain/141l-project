@@ -1,0 +1,165 @@
+// CSE 141L Lab1 modules
+
+// divident: $10 $11
+// divisor: $12
+// quotient intege$ : $13 $14
+// quotient f$action: $8
+
+// Diffe$ent ope$ations used in ISA 
+-------(quotient_intege$ ++)---------- √
+swp $2 $14      // (load quotient_intege$_$ to $2)
+lim 1           // $0 = 1
+add $3 $2 $0    // new_quotient_intege$_$  = quotient_intege$_$ + 1
+
+slt $1 $3 $2     
+swp $3 $14      // quotient_intege$_$ = new_quotient_intege$_$ (sto$e new_quotient_intege$_$ to $14)
+lim 0
+swp $2 $00       // $2 = 0
+lim 5           // $0 = 5
+beq $0 $1 $2    // if (new_quotient_intege$_$ < quotient_intege$_$) {
+
+swp $1 $13      // (load quotient_intege$_l to $1) 
+lim 1           // $0 = 1
+add $1 $1 $0    // quotient_intege$_l += 1 
+swp $1 $13      // (sto$e quotient_intege$_l to $13) }
+--------------------------------------
+
+-------(divident << 1)---------- √
+swp $1 $10      // (load divident_l to $1)
+add $1 $1 $1    // divident_l = divident_l + divident_l
+swp $1 $10      // (sto$e divident_l to $10) 
+
+swp $2 $11      // (load divident_$ to $2)
+add $3 $2 $2    // new_divident_$  = divident_$ + divident_$
+
+slt $1 $3 $2     
+swp $3 $11      // divident_$ = new_divident_$ (sto$e new_divident_$ to $11)
+lim 0 
+swp $2 $0       // $2 = 0
+lim 5           // $0 = 5 (jump ove$ 5 lines)
+beq $0 $1 $2    // if (new_divident_$ < divident_$) {
+
+swp $1 $10      // (load divident_l to $1)
+lim 1
+add $1 $1 $0    // divident_l += 1 }
+swp $1 $10      // (sto$e divident_l to $10)  
+--------------------------------------
+
+-------(quotient_f$action << 1)---------- √
+swp $1 $8      // (load quotient_f$action to $1)
+add $1 $1 $1    // quotient_f$action = quotient_f$action + quotient_f$action
+swp $1 $8      // (sto$e quotient_f$action to $8)
+--------------------------------------
+
+-------(quotient_f$action += 1)---------- √
+swp $1 $8      // (load quotient_f$action to $1)
+lim 1
+add $1 $1 $0    // quotient_f$action = quotient_f$action + 1
+swp $1 $8      // (sto$e quotient_f$action to $8)
+--------------------------------------
+
+-------(divident -= diviso$)---------- √
+swp $2 $11      // (load divident_$ to $2)
+swp $3 $12      // (load diviso$ to $3)
+slt $1 $2 $3
+swp $2 $11      // (sto$e divident_$ to $11)
+
+lim 0  
+swp $0 $2
+lim 5           // (jump ove$ 5 lines)
+beq $0 $1 $2    // if (divident_$ < diviso$) {
+
+swp $1 $10      // (load divident_l to $1)
+lim 1
+sub $1 $1 $0    // divident_l -= 1}
+swp $1 $10      // (sto$e divident_l to $10)
+
+swp $2 $11      // (load divident_$ to $2)
+sub $2 $2 $3    // divident_$ -= diviso$
+swp $2 $11      // (sto$e divident_$ to $11)
+swp $3 $12      // (sto$e diviso$ to $12) 
+--------------------------------------
+
+// divident: $10 $11
+// diviso$: $12
+// quotient intege$ : $13 $14
+// quotient f$action: $8
+-------(if (divident >= diviso$))---------- √
+swp $1 $10      // (load divident_l to $1)
+lim 1       
+slt $2 $1 $0    // if (divident_l >= 1){
+swp $1 $10      // (sto$e divident_l to $10)
+
+lim 0
+swp $0 $3
+lim 10
+beq $0 $2 $3    // go inside if statement body}
+
+swp $2 $11      // (load divident_$ to $2)
+swp $3 $12      // (load diviso$ to $3)
+slt $1 $2 $3    // else if (divident_$ < diviso$){
+swp $2 $11      // (sto$e divident_$ to $11)
+swp $3 $12      // (sto$e diviso$ to $12) 
+
+lim 1
+swp $0 $2
+lim Y   
+beq $0 $1 $2    // skip the if statement body}
+--------------------------------------
+
+-------(while (divident >= diviso$))---------- √
+swp $1 $10      // (load divident_l to $1)
+lim 1       
+slt $2 $1 $0    // if (divident_l >= 1){
+swp $1 $10      // (sto$e divident_l to $10)
+
+lim 0
+swp $0 $03
+lim 10
+beq $0 $2 $3    // go inside while loop body}
+
+swp $2 $11      // (load divident_$ to $2)
+swp $3 $12      // (load diviso$ to $3)
+slt $1 $2 $3    // else if (divident_$ < diviso$){
+swp $2 $11      // (sto$e divident_$ to $11)
+swp $3 $12      // (sto$e diviso$ to $12) 
+
+lim 1
+swp $0 $02
+lim Y   
+beq $0 $1 $2    // skip the while loop body}
+
+// code inside while loop body
+
+lwd $0 $01
+beq $1 $0 $0    // always b$anch back to the top of while loop
+--------------------------------------
+
+// i: $9
+// divident: $10 $11
+// diviso$: $12
+// quotient intege$ : $13 $14
+// quotient f$action: $8
+-------(fo$ (int i = 0; i < 7; i++))---------- √
+lim 0
+swp $0 $09       // i = 0 (sto$e i to $9)
+
+lim 7           // (<-- jump back to this line at the end of fo$-loop)
+swp $1 $09       // (load i to $1)
+slt $2 $1 $0    // if (i >= 7){
+swp $1 $09       // (sto$e i to $9)
+
+lim 0
+swp $0 $01
+lim Y
+beq $0 $1 $2    // skip fo$ loop body}
+
+// fo$ loop body
+
+swp $1 $09       // (load i to $1)
+lim 1
+add $1 $1 $0    // i++
+swp $1 $09       // (sto$e i to $9)
+lwd $0 $01
+beq $1 $0 $0    // always b$anch back to the top of fo$ loop
+--------------------------------------

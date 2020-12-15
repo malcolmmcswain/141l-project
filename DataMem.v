@@ -40,6 +40,17 @@ module DataMem(Clk,Reset,WriteEn,DataAddress,DataIn,DataOut);
 // you may initialize your memory w/ constants, if you wish
       for(i=0;i<256;i = i + 1)
 	      Core[i] <= 0;
+			
+		Core[0] <= 1;
+		Core[1] <= 1;
+		Core[2] <= 3;
+		
+		Core[7] <= 33; // while loop skip loop body constant
+		Core[8] <= 207; // while loop branch to loop top constant (-49)
+		Core[9] <= 63; // for loop skip loop body
+		Core[10] <= 186; // for loop branch back to top ofloop (-70)
+		
+		
       Core[ 16] <= 254;          // overrides the 0  ***sample only***
       Core[244] <= 5;			   //    likewise
 	end

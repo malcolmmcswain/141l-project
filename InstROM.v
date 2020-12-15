@@ -46,7 +46,7 @@ module InstROM (InstAddress, InstOut) ;
   always@* InstOut = inst_rom[InstAddress];
  
   initial begin		                  // load from external text file
-  	$readmemb("C:/intelFPGA_lite/20.1/141L_Lab2/machine_code.txt",inst_rom);
+  	$readmemb("H:/CSE141L/141l-project-master/machine_code.txt",inst_rom);
   end 
   
 endmodule

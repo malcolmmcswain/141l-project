@@ -23,11 +23,19 @@ module ALU(InputA,InputB,OP,Out,Zero, LT);
 		case (OP)
 		'b00: begin
 			Out = InputA + InputB; // ADD
-			$display("Sum: %d",Out);
+			//$display("add InputA: %d and InputB: %d", InputA, InputB);
+			//$display("Sum: %d %b",Out, Out);
+			//$display("\n");
 			end
 		'b01: begin
-			Out = InputA - InputB;
-			$display("Difference: %d",Out);
+			
+			if (InputA >= InputB)  
+				Out = InputA - InputB; // SUB if inputA is larger or equal to InputB
+			else 
+				// Sub with a borrow, because there are always going to be a borrow
+				Out = 9'b100000000 - InputB + InputA;
+				
+			//$display("Difference: %d",Out);
 			end	// SUB
 		default: Out = 0;
 	  endcase

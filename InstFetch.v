@@ -17,7 +17,7 @@ module InstFetch(Reset,Start,Clk,BranchEn,ALU_flag,Target,ProgCtr);
                      BranchEn,	   // jump conditionally to Target + PC
                      ALU_flag;		   // flag from ALU, e.g. Zero, Carry, Overflow, Negative (from ARM)
   input  signed     [7:0] Target;		      // jump ... "how high?"
-  output reg [10:0] ProgCtr ;            // the program counter register itself
+  output reg signed [10:0] ProgCtr ;            // the program counter register itself
   
   
   //// program counter can clear to 0, increment, or jump
@@ -27,10 +27,16 @@ module InstFetch(Reset,Start,Clk,BranchEn,ALU_flag,Target,ProgCtr);
 		  ProgCtr <= 0;				        // for first program; want different value for 2nd or 3rd
 		else if(Start)						     // hold while start asserted; commence when released
 		  ProgCtr <= ProgCtr;
-		else if(BranchEn && ALU_flag)   // conditional relative jump
+		else if(BranchEn && ALU_flag) begin  // conditional relative jump
 		  ProgCtr <= ProgCtr + Target;
+		  //$display("beq jump %d lines",Target);
+		  //$display("ProgCtr now %d ",ProgCtr);
+		  //$display("\n");
+		  end
 		else
 		  ProgCtr <= ProgCtr+'b1; 	        // default increment (no need for ARM/MIPS +4. Pop quiz: why?)
+		//$display("ProgCtr now %d ",ProgCtr);
+	   //$display("\n");
 	end
 
 
