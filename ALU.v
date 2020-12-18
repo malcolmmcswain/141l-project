@@ -23,9 +23,9 @@ module ALU(InputA,InputB,OP,Out,Zero, LT);
 		case (OP)
 		'b00: begin
 			Out = InputA + InputB; // ADD
-			//$display("add InputA: %d and InputB: %d", InputA, InputB);
-			//$display("Sum: %d %b",Out, Out);
-			//$display("\n");
+			$display("add InputA: %d and InputB: %d", InputA, InputB);
+			$display("Sum: %d %b",Out, Out);
+			$display("\n");
 			end
 		'b01: begin
 			
@@ -35,7 +35,7 @@ module ALU(InputA,InputB,OP,Out,Zero, LT);
 				// Sub with a borrow, because there are always going to be a borrow
 				Out = 9'b100000000 - InputB + InputA;
 				
-			//$display("Difference: %d",Out);
+			$display("Difference: %d",Out);
 			end	// SUB
 		default: Out = 0;
 	  endcase

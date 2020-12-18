@@ -68,30 +68,27 @@ module RegFile (Clk,DataIn,Instruction,DataOutA,DataOutB,DataOutC);
 		case(Instruction[8:6]) // write registers
 		3'b010   : begin
 						Registers[Instruction[3:0]] <= DataIn; // lwd
-						if (Registers[Instruction[5:4]] == 0 || Registers[Instruction[5:4]] == 1 || Registers[Instruction[5:4]] == 2
-							|| Registers[Instruction[5:4]]== 4 || Registers[Instruction[5:4]] == 5 || Registers[Instruction[5:4]] == 6) begin
 							$display("Load word: Load from Mem[%d] value of decimal: %d, binary: %b", Registers[Instruction[5:4]], DataIn, DataIn);
-						end
 						end
 		3'b101   : Registers[Instruction[3:0]] <= Registers[Instruction[3:0]]; // beq
 		3'b011   : begin
 				Registers[Instruction[3:0]] <= Registers[Instruction[3:0]]; // swd
-				//$display("Register %b contains value %d", Instruction[3:0], DataIn);
+				$display("Register %b contains value %d", Instruction[3:0], DataIn);
 				end
 		3'b111   : begin
 			Registers[4'b0000] <= Instruction[5:0]; // lim
-			//$display("load imm %d to reg 0", Instruction[5:0]);
-			//$display("Reg: 0 has value: %d",Registers[0]);
-			//$display("\n");
+			$display("load imm %d to reg 0", Instruction[5:0]);
+			$display("Reg: 0 had value: %d",Registers[0]);
+			$display("\n");
 			end
 		3'b110  : begin // swp
 			 Registers[4'b1111] = Registers[Instruction[5:4]];
 			 Registers[Instruction[5:4]] = Registers[Instruction[3:0]];
 			 Registers[Instruction[3:0]] = Registers[4'b1111];
-			 //$display("swp reg %d and reg %d", Instruction[5:4], Instruction[3:0]);
-			 //$display("Reg: %d now has value: %d %b",Instruction[5:4],Registers[Instruction[5:4]],Registers[Instruction[5:4]]);
-			 //$display("Reg: %d now has value: %d %b",Instruction[3:0],Registers[Instruction[3:0]],Registers[Instruction[3:0]]);
-			 //$display("\n");
+			 $display("swp reg %d and reg %d", Instruction[5:4], Instruction[3:0]);
+			 $display("Reg: %d now has value: %d %b",Instruction[5:4],Registers[Instruction[5:4]],Registers[Instruction[5:4]]);
+			 $display("Reg: %d now has value: %d %b",Instruction[3:0],Registers[Instruction[3:0]],Registers[Instruction[3:0]]);
+			 $display("\n");
 			 end
 		default  : Registers[Instruction[5:4]] <= DataIn;
 		endcase

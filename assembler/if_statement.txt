@@ -1,0 +1,28 @@
+lim 3
+lwd $0 $10       // load divisor_l to r10 LOAD IMMEDIATES
+lim 4
+lwd $0 $11       // load divisor_r to r11
+lim 0
+swp $0 $01
+swp $2 $10
+lim 4
+beq $0 $1 $2
+swp $2 $10
+lim 12
+beq $0 $0 $0    // jump past loop
+lim 1
+swp $0 $01
+swp $3 $11
+lim 4
+beq $0 $1 $3
+swp $3 $11
+lim 5
+beq $0 $0 $0    // jump past loop
+lim 1
+add $1 $0 $0
+lim 0 
+add $2 $0 $0
+lim 10
+
+
+

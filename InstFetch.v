@@ -29,14 +29,14 @@ module InstFetch(Reset,Start,Clk,BranchEn,ALU_flag,Target,ProgCtr);
 		  ProgCtr <= ProgCtr;
 		else if(BranchEn && ALU_flag) begin  // conditional relative jump
 		  ProgCtr <= ProgCtr + Target;
-		  //$display("beq jump %d lines",Target);
-		  //$display("ProgCtr now %d ",ProgCtr);
-		  //$display("\n");
+		  $display("beq jump %d lines",Target);
+		  $display("ProgCtr now %d ",ProgCtr);
+		  $display("\n");
 		  end
 		else
 		  ProgCtr <= ProgCtr+'b1; 	        // default increment (no need for ARM/MIPS +4. Pop quiz: why?)
-		//$display("ProgCtr now %d ",ProgCtr);
-	   //$display("\n");
+		$display("ProgCtr now %d ",ProgCtr);
+	   $display("\n");
 	end
 
 

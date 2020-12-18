@@ -45,11 +45,21 @@ module DataMem(Clk,Reset,WriteEn,DataAddress,DataIn,DataOut);
 		Core[1] <= 1;
 		Core[2] <= 3;
 		
+		Core[3] <= 0;
+		Core[4] <= 2;
+		Core[5] <= 0;
+		Core[6] <= 0;
+
 		Core[7] <= 33; // while loop skip loop body constant
 		Core[8] <= 207; // while loop branch to loop top constant (-49)
-		Core[9] <= 63; // for loop skip loop body
-		Core[10] <= 186; // for loop branch back to top ofloop (-70)
+		Core[9] <= 88; // for loop skip loop body
+		Core[10] <= 161; // for loop branch back to top ofloop (-70)
+		Core[11] <= 0;
 		
+		Core[13] <= 0;
+		Core[14] <= 16;
+		Core[15] <= 191;
+		Core[17] <= 188;
 		
       Core[ 16] <= 254;          // overrides the 0  ***sample only***
       Core[244] <= 5;			   //    likewise

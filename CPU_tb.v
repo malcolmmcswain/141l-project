@@ -40,15 +40,13 @@ CPU uut(
 );
 	 
 initial begin
-
-
+	
 	Reset = 1;
-	Start = 0;
+	Start = 1;
 	#2;
 	
 	Reset = 0;
 	Start = 0;
-	#2;
 	
 
 end

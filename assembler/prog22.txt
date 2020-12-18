@@ -1,0 +1,114 @@
+lim 1
+swp $0 $09      // load dividend into r9
+lim 3
+lwd $0 $10      // load divisor_l to r10 LOAD IMMEDIATES
+lim 4
+lwd $0 $11      // load divisor_r to r11
+lim 0 
+swp $0 $12      // load quotient_l into r12
+lim 0 
+swp $0 $13      // load quotient_r into r13
+lim 0
+swp $0 $01      // load 0 into $01
+swp $2 $10      // load divisor_l into $2    
+lim 4
+beq $0 $1 $2    // if divisor_l == 0 jump past skip to nested-if, else execute skip
+swp $2 $10      // store divisor_l into $10
+lim 17
+beq $0 $0 $0    // skip to end
+swp $2 $10      // store divisor_l into $10
+lim 1           
+swp $0 $01      // load 1 into $1  NESTED IF STARTS ^
+swp $3 $11      // load divisor_r into $3
+lim 4
+beq $0 $1 $3    // if divisor_r == 1 jump past skip to if-body, else execute skip
+swp $3 $11      // store divisor_r into $11
+lim 8
+beq $0 $0 $0    // skip to end
+swp $3 $11      // store divisor_r into $11
+lim 1           
+add $1 $0 $0    // start of if-body ^
+swp $1 $13      // set quotient_r = 2      
+lim 0 
+add $2 $0 $0    // end of if-body
+swp $2 $09      // dividend = 0
+swp $1 $09      // load dividend into $1
+add $1 $1 $1    // dividend << 1
+swp $1 $09      // store dividend into $09
+lim 0
+swp $0 $08      // store i = 0
+lim 14          
+swp $1 $08      // load i into $1   // (^^ jump back to this line at the end of fo$-loop)
+slt $2 $1 $0    // $2 = (i < 14) 
+swp $1 $08      // store i into $8
+lim 0
+swp $1 $00      // load 0 into $1
+lim 62           
+beq $0 $1 $2    // if (i >= 14) -> jump to end of loop
+swp $1 $10      // load divisor_l into $1  LOOP BODY START
+lim 1
+slt $2 $1 $0    // $2 = (divisor_l < 1)
+swp $1 $10      // store divisor_l into $10
+lim 31          
+swp $3 $00      // load jump amount into $3
+lim 0
+beq $3 $2 $0    // jump past if body if(divisor_l >= 1)
+swp $1 $11      // load divisor_r into $1
+swp $2 $09       // load dividend into $2
+slt $3 $2 $1    // $3 = (divisor_r > dividend)
+swp $1 $11      // store divisor_r into $11
+swp $2 $09       // store dividend into $9
+lim 0
+swp $1 $00      // $1 = 0
+lim 3           
+beq $0 $3 $1    // if (dividend >= divisor_r) jump to if body
+lim 20          
+beq $0 $0 $0    // jump past if body
+swp $1 $09      // load dividend into $1  *** START OF IF BODY ***
+swp $2 $11      // load divisor_r into $2
+sub $1 $1 $2    // dividend -= divisor_r
+swp $1 $09      // store dividend into $09
+swp $2 $11      // store divisor_r into $11
+swp $1 $13      // load quotient_r into $1
+lim 1
+add $2 $1 $0    // $2 = quotient_r + 1
+slt $3 $2 $1    // $3 = 1 if overflow and 0 else
+add $1 $1 $0    // quotient_r += 1
+swp $1 $13      // store quotient_r into $13
+lim 0
+swp $0 $01
+lim 5
+beq $0 $1 $3    // if no over flow, skip next part
+swp $1 $12      // load quotient_l into $1
+lim 1
+add $1 $1 $0    // quotient_l += 1 (for overflow)
+swp $1 $12      // store quotient_l into $12        *** END OF IF BODY ***
+swp $1 $13      // load quotient_r into $1
+add $2 $1 $1    // $2 = quotient_r << 1
+slt $3 $2 $1    // $3 = 1 if overflow and 0 else
+add $1 $1 $1    // quotient_r << 1
+swp $1 $13      // store quotient_r into $13
+lim 0
+swp $0 $01
+lim 5
+beq $0 $1 $3    // if no over flow, skip next part
+swp $1 $12      // load quotient_l into $1
+lim 1
+add $1 $1 $0    // quotient_l += 1 (for overflow)
+swp $1 $12      // store quotient_l into $12
+swp $1 $09      // load dividend into $1
+add $1 $1 $1    // dividend << 1
+swp $1 $09      // store dividend into $09
+swp $1 $08      // load i into $1
+lim 1
+add $1 $1 $0    // i++
+swp $1 $08      // store i into $8
+lim 17          
+lwd $0 $01
+beq $1 $1 $1    // always branch to top of loop
+swp $1 $12      // load quotient_l into $1
+swp $2 $13      // load quotient_r into $2
+lim 18
+swd $0 $01      // store quotient_l into data[18]
+lim 19
+swd $0 $02      // stote quotient_r into data[19]
